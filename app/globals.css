@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f6f7f6;
+  --surface: #ffffff;
+  --ink: #1b2430;
+  --muted: #667085;
+  --line: #e2e5e3;
+  --brand: #0f5b4a;
+  --brand-ink: #ffffff;
+  --warn: #9a5b00;
+}
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body), system-ui, sans-serif; }
+h1, h2, h3 { font-family: var(--font-head), Georgia, serif; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
