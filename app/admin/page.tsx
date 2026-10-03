@@ -21,10 +21,12 @@ export default async function AdminPage() {
   const posts = await getPendingPosts();
   return (
     <>
-      <h1 className="mb-4 text-2xl font-semibold">Posts to review</h1>
+      <h1 className="mb-4 inline-block rounded-xl bg-[var(--surface)]/95 px-4 py-2 text-2xl font-semibold">
+        Posts to review
+      </h1>
       <div className="space-y-4">
         {posts.length === 0 && (
-          <p className="text-[var(--muted)]">
+          <p className="rounded-xl bg-[var(--surface)]/95 px-4 py-3 text-[var(--muted)]">
             Nothing waiting. New posts will show up here.
           </p>
         )}

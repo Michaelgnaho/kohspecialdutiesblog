@@ -29,17 +29,39 @@ function toPost(row: any): Post {
   };
 }
 
+export type PostSort = "newest" | "oldest" | "title";
+
 export async function getPublishedPosts(
   page = 0,
   pageSize = 20,
+  opts: { q?: string; sort?: PostSort } = {},
 ): Promise<Post[]> {
   const supabase = await createClient();
-  const { data, error } = await supabase
-    .from("posts")
-    .select(SELECT)
-    .eq("status", "published")
-    .order("created_at", { ascending: false })
-    .range(page * pageSize, page * pageSize + pageSize - 1);
+  let query = supabase.from("posts").select(SELECT).eq("status", "published");
+
+  // Strip characters that have special meaning in PostgREST filters / LIKE patterns
+  const term = (opts.q ?? "")
+    .replace(/[%_\\,()*"]/g, " ")
+    .trim()
+    .slice(0, 100);
+  if (term) {
+    query = query.or(`title.ilike.%${term}%,body.ilike.%${term}%`);
+  }
+
+  if (opts.sort === "oldest") {
+    query = query.order("created_at", { ascending: true });
+  } else if (opts.sort === "title") {
+    query = query
+      .order("title", { ascending: true })
+      .order("created_at", { ascending: false });
+  } else {
+    query = query.order("created_at", { ascending: false });
+  }
+
+  const { data, error } = await query.range(
+    page * pageSize,
+    page * pageSize + pageSize - 1,
+  );
   if (error) throw error;
   return (data ?? []).map(toPost);
 }

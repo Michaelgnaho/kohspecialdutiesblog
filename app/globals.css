@@ -10,6 +10,37 @@
   --brand-ink: #ffffff;
   --warn: #9a5b00;
 }
-body { background: var(--bg); color: var(--ink); font-family: var(--font-body), system-ui, sans-serif; }
-h1, h2, h3 { font-family: var(--font-head), Georgia, serif; }
-:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+html {
+  background: var(--bg);
+}
+body {
+  position: relative;
+  min-height: 100dvh;
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--font-head), Georgia, serif;
+}
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* Campaign photo as the site-wide background (fixed layer works on iOS too) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: -8px;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(246, 247, 246, 0.38), rgba(246, 247, 246, 0.6)),
+    url("/campaign-bg.jpg") center / cover no-repeat;
+  filter: blur(1.5px);
+  pointer-events: none;
+}
+body {
+  overflow-x: hidden;
+}
