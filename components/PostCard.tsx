@@ -30,13 +30,13 @@ export default function PostCard({
           </span>
         )}
       </div>
+      <ImageGrid images={post.images} />
       {post.title && (
         <h2 className="mt-3 text-xl font-semibold leading-snug">
           {post.title}
         </h2>
       )}
       {post.body && <ExpandableText text={post.body} />}
-      <ImageGrid images={post.images} />
       {actions && (
         <div className="mt-4 flex gap-2 border-t border-[var(--line)] pt-3">
           {actions}
